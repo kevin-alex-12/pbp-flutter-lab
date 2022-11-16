@@ -88,8 +88,24 @@ class _MyDataPageState extends State<MyDataPage> {
                             widget.importJudul[index],
                             style: Theme.of(context).textTheme.headline6,
                           ),
-                          subtitle: Text(widget.importNominal[index]),
-                          trailing: Text(widget.importTipe[index]),
+                          subtitle: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  widget.importNominal[index],
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  widget.importTipe[index],
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          )
                         ),
                       ),
                     );

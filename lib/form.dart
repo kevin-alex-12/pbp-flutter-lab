@@ -159,54 +159,55 @@ class _MyFormPageState extends State<MyFormPage> {
                       });
                     },
                   ),
-                  TextButton(
-                    child: const Text(
-                      "Simpan",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.blue),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        widget.importJudul.add(judulKegiatan);
-                        widget.importNominal.add(nominal.toString());
-                        widget.importTipe.add(tipeBudget);
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Dialog(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 15,
-                              child: Container(
-                                child: ListView(
-                                  padding: const EdgeInsets.only(top: 20, bottom: 20),
-                                  shrinkWrap: true,
-                                  children: <Widget>[
-                                    Center(child: const Text('Berhasil Menambahkan Data')),
-                                    SizedBox(height: 20),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Kembali'),
-                                    ), 
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }
-                    },
-                  ),
                 ],
               ),
             ),
           ),
         ),
+        floatingActionButton: TextButton(
+          child: const Text(
+            "Simpan",
+            style: TextStyle(color: Colors.white),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.blue),
+          ),
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              widget.importJudul.add(judulKegiatan);
+              widget.importNominal.add(nominal.toString());
+              widget.importTipe.add(tipeBudget);
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 15,
+                    child: Container(
+                      child: ListView(
+                        padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        shrinkWrap: true,
+                        children: <Widget>[
+                          Center(child: const Text('Berhasil Menambahkan Data')),
+                          SizedBox(height: 20),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Kembali'),
+                          ), 
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+          },
+        ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
