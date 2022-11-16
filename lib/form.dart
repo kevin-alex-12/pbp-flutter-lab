@@ -127,19 +127,21 @@ class _MyFormPageState extends State<MyFormPage> {
                       // Menambahkan behavior saat nama diketik 
                       onChanged: (String? value) {
                         setState(() {
-                            nominal = int.parse(value!);
+                            nominal = (int.tryParse(value!) == null) ? -1 : int.parse(value!);
                         });
                       },
                       // Menambahkan behavior saat data disimpan
                       onSaved: (String? value) {
                         setState(() {
-                            nominal = int.parse(value!);
+                            nominal = (int.tryParse(value!) == null) ? -1 : int.parse(value!);
                         });
                       },
                       // Validator sebagai validasi form
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                             return 'Nominal tidak boleh kosong!';
+                        } else if (int.tryParse(value) == null){
+                            return "Nominal harus berupa angka";
                         }
                         return null;
                       },
@@ -147,6 +149,7 @@ class _MyFormPageState extends State<MyFormPage> {
                   ),
                   DropdownButton(
                     value: tipeBudget,
+                    hint: const Text('Pilih Jenis'),
                     items: listtipeBudget.map((String items) {
                     return DropdownMenuItem(
                         value: items,
