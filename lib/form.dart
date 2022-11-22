@@ -1,5 +1,6 @@
-import 'package:counter_7/main.dart';
-import 'package:counter_7/data.dart';
+import 'main.dart';
+import 'data.dart';
+import 'mywatchlist.dart';
 import 'package:flutter/material.dart';
 
 class MyFormPage extends StatefulWidget {
@@ -62,6 +63,20 @@ class _MyFormPageState extends State<MyFormPage> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => MyDataPage(
+                      importJudul: widget.importJudul,
+                      importNominal: widget.importNominal,
+                      importTipe: widget.importTipe,
+                    )),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('My Watch List'),
+                onTap: () {
+                  // Route menu ke halaman form
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyWatchList(
                       importJudul: widget.importJudul,
                       importNominal: widget.importNominal,
                       importTipe: widget.importTipe,
