@@ -15,7 +15,13 @@ class MyWatchList extends StatefulWidget {
 }
 
 class _MyWatchListState extends State<MyWatchList> {
-    Future<List<Watchlist>> dataList = fetchWatchlist();
+    late Future<List<Watchlist>> dataList;
+
+    @override
+    void initState() {
+      super.initState();
+      dataList = fetchWatchlist();
+    }
 
     @override
     Widget build(BuildContext context) {
