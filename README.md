@@ -282,3 +282,94 @@ drawer: Drawer(
 Untuk file form.dart, tambahkan widget yang sesuai dengan permintaaan tugas. Untuk tugas kali ini, widget yang ditambahkan bisa langsung menuju [link berikut](/lib/form.dart). <br/><br/>
 
 Untuk file data.dart, tambahkan widget yang sesuai dengan permintaaan tugas. Untuk tugas kali ini, widget yang ditambahkan bisa langsung menuju [link berikut](/lib/data.dart).
+
+# Tugas 9
+
+## Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?
+
+Sesuai dengan dokumen pada [halaman resmi flutter](https://docs.flutter.dev/cookbook/networking/fetch-data#3-convert-the-response-into-a-custom-dart-object), dapat disimpulkan bahwa data JSON yang pertama kali didapatkan masih tidak dibungkus dalam model sehingga data JSON tersebut dapat diambil tanpa dibuat ke dalam suatu model, tetapi sulit untuk mengolah data tersebut jika tidak dibungkus dalam suatu model.
+
+## Sebutkan widget apa saja yang kamu pakai di proyek kali ini dan jelaskan fungsinya.
+
+Catatan: selain yang digunakan pada halaman counter_7, Tambah Budget, dan Data Budget karena termasuk tugas sebelumnya (hanya mencakup widget untuk Tugas 9)
+* AppBar, sebagai petunjuk aplikasi pada bagian atas Scaffold
+* Scaffold, sebagai material dasar dalam mengatur layout
+* Column, sebagai pengatur layout pada aplikasi juga (secara horizontal)
+* Padding, sebagai pengatur posisi widget
+* Text, untuk menampilkan teks sesuai yang dibutuhkan
+* Drawer, sebagai menu navigasi pada sisi kiri aplikasi
+* ListTile, membuat suatu listuntuk  widget lain
+* Navigator, untuk meletakkan halaman pada stack dan berpindah ke halaman baru
+* MaterialPageRoute, untuk membuat route halaman yang dituju
+* Container, sebagai wadah untuk meletakkan widget-widget lain
+* ListView, untuk menampilkan widget agar bisa di-scroll
+* FutureBuilder, untuk membuat widget berdasarkan interaksi class Future terakhir
+* AsyncSnapshot, untuk merepresentasikan interaksi terbaru pada model asinkronus
+* Center, sebagai pengatur layout pada aplikasi (menengahkan widget lain)
+* CircularProgressIndicator, untuk menampilkan loading data
+* TextStyle, untuk melakukan styling pada widget Text
+* SizedBox, membuat kotak pada sekeliling widget di dalamnya
+* EdgeInsets, untuk membuat offset pada suatu widget
+* ClipPath, untuk membuat widget pada sekeliling widget lain
+* ShapeBorderClipper, untuk mengatur tampilan disekeliling ClipPath
+* RoundedRectangleBorder, membuat ClipPath menjadi kotak
+* BorderRadius, agar kotak pada sekeliling widget tidak tajam
+* InkWell, agar suatu widget dapat merespons saat di tekan
+* BoxDecoration, untuk memperbaiki tampilan kotak
+* Border, mengatur sisi pada widget BoxDecoration
+* BorderSide, mengatur tampilan sisi pada widget Border
+* Checkbox, untuk menampilkan checkbox widget
+* RichText, untuk membuat teks dapat memiliki banyak style
+* TextSpan, untuk membuat teks pada widget RichText
+
+## Jelaskan mekanisme pengambilan data dari json hingga dapat ditampilkan pada Flutter.
+
+1. Tambahkan dahulu package http pada flutter agar dapat melakukan fetch data dari internet
+2. Pada bagian file AndroidManifest.xml, tambahkan kode berikut agar mengizinkan aplikasi mengakses internet
+```
+<!-- Required to fetch data from the internet. -->
+<uses-permission android:name="android.permission.INTERNET" />
+```
+3. Membuat request pada file dart melalui class Future sehingga didapatkan data JSON
+4. Bungkus data JSON tersebut ke dalam suatu Custom Class sehingga mempermudah pengolahan data tersebut (menggunakan method jsonDecode)
+5. Terakhir lakukan fetch data yang ingin diambil pada internet dan simpan ke dalam suatu variable dengan class Future
+6. Tampilkan data tersebut menggunakan widget FutureBuilder (disarankan melalui methid initState agar hanya sekali dilakukan pemanggilannya)
+
+## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.
+
+Pertama, buat custom class terlebih dahulu untuk membungkus data JSON yang diambil sesuai dengan contoh pada Lab 8, custom class tersebut dapat dilihat pada [file berikut](/lib/model/watch_list.dart).<br/><br/>
+
+Buat fungsi fetch data yang sekaligus akan membungkus data JSON ke custom class yang telah dibuat sebelumnya, kode-nya berupa:
+```
+import 'package:http/http.dart' as http;
+import 'model/watch_list.dart';
+import 'dart:convert';
+
+Future<List<Watchlist>> fetchWatchlist() async {
+  var url = Uri.parse('https://tugas-pbp22.herokuapp.com/mywatchlist/json/');
+  var response = await http.get(
+    url,
+    headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+    },
+  );
+
+  var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+  List<Watchlist> listWatch = [];
+  for (var d in data) {
+    if (d != null) {
+        listWatch.add(Watchlist.fromJson(d));
+    }
+  }
+
+  return listWatch;
+}
+```
+
+Setelah itu, lakukan pemanggilan fetch data tersebut ke dalam variabel Future di halaman yang ditentukan pada soal melalui widget FutureBuilder. Contoh implementasi widget tersebut dapat dilihat pada [file berikut](/lib/mywatchlist.dart)<br/><br/>
+
+Jangan lupa juga untuk menambahkan drawer sebagai navigasi antar halaman sesuai dengan tugas-tugas sebelumnya.<br/><br/>
+
+Terakhir, buat halaman baru yang akan menampilkan detail setiap watchlist, berikut adalah contoh [file tersebut](/lib/detailwatchlist.dart).
